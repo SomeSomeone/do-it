@@ -19,6 +19,17 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
-    "mongodb": "^2.2.31"
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "mongodb": "^2.2.31",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.5",
+    "extract-text-webpack-plugin": "^3.0.0"
   }
 }
