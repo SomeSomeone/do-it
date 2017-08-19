@@ -11,9 +11,13 @@ const extractLess = new ExtractTextPlugin({
 
 module.exports={
 	entry: {
+        //angular
 	    core: './app/models/index.js',
-	    index: './app/assets/javascripts/index.js',
-	    index_less: './app/assets/stylesheets/index.less'
+	    //javascripts
+        index: './app/assets/javascripts/index.js',
+	    //stylesheets
+        index_less: './app/assets/stylesheets/index.less',
+        reset: './app/assets/stylesheets/reset.css',
 	},
 	output: {
 		path: __dirname  + '/public',
@@ -40,6 +44,15 @@ module.exports={
                   presets: ['env']
                 }
             }
+        },
+        {
+            test: /\.css$/,
+            use: extractLess.extract({
+                use: [{
+                    loader: "css-loader"
+                }],
+                fallback: "style-loader"
+            })
         }]
         },
     plugins: [
