@@ -1,2 +1,5 @@
-//for test
-let some =(i=2)=>{ return(+i+2)}
+import angular from 'angular'
+
+var app = angular.module('app', []);
+
+require('../controllers/')(app);
