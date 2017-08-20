@@ -1,13 +1,17 @@
 
-@import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans');
-
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans');
 
 /* Varible */
 @main-background-color:#FFFFFF;
 @hover-background-color:#EFEFEF;
 
+
+
 @font-lato:'Lato', sans-serif;
 @font-open-sans: 'Open Sans', sans-serif;
+@font-title-color:  #222;
+@font-content-color:  #111; 
+
 
 @header-height:50px;
 @basic-shadow:1px 1px 21px rgba(0,0,0,0.2);	
@@ -26,12 +30,17 @@
 }
 .font-title(){
 	font-family: @font-lato;
-	color: #222;
+	color: @font-title-color;
 	text-decoration: none;
 }
+.font-title-h2(){
+	.font-title();
+	font-size: 60px;
+	font-weight: 700;
+};
 .font-content(){
 	font-family: @font-open-sans;
-	color: #111;
+	color: @font-content-color;
 	text-decoration: none;
 }
 .flex-display(){
@@ -137,7 +146,6 @@ body{
 			    	border-left: 1px solid transparent;
 	    			border-right: 1px solid transparent;
 			    	&:hover{
-			    		.hover-background-color();
 			    		text-decoration: underline;
 		    		    border-left: 1px solid #dedede;
 	    				border-right: 1px solid #dedede;
@@ -193,6 +201,36 @@ body{
 			    display: block;
 			    text-align: center;
 			    line-height: 20px;
+			}
+		}
+	}
+}
+.style-hr{
+	border: 0;
+	max-width: 300px;
+	height: 2px;
+	background: @font-title-color; 
+	margin:1em 0 2em;
+}
+.about-block{
+	margin-top: 100px;
+	margin-bottom: 120px;
+	.block{
+		.flex-display();
+		.justify-content(space-between);
+		.about-block-map{
+			.flex(0 1 55%);
+			height: 500px;
+			width: 500px
+		}
+		.about-block-content{
+			.flex( 0 1 40%);
+			h2{
+				.font-title-h2();
+			}
+			p{
+				margin-top: 1em;
+				.font-content();
 			}
 		}
 	}

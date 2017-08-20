@@ -3,6 +3,30 @@ module.exports = function(app) {
 
 	app.controller('controller', function($scope) {
 	    $scope.name = "John Doe";
+		
+
+		$scope.InitMap = function (){
+			getLocation()
+			function getLocation() {
+			    if (navigator.geolocation) {
+			        navigator.geolocation.getCurrentPosition(showPosition);
+			    } else {
+			        alert("Geolocation is not supported by this browser.");
+			    }
+			}			
+			function showPosition(position) {
+		   		var coords = [position.coords.latitude ,position.coords.longitude]; 
+		   		var map
+		   		DG.then(function () {
+		        	map = DG.map('map', {
+			            center:coords,
+			            zoom: 13
+			        });
+			        DG.marker(coords).addTo(map).bindPopup('Youo');
+			    });
+			}
+		    
+		}		
 	});
 
 
