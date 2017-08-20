@@ -1,18 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css" href="font_awesome.css">
 	<link rel="stylesheet" type="text/css" href="index_less.css">
-
+	<base href="/" />
 </head>
-<body ng-app="app" ng-controller="controller">
-	<h1>Test</h1>
-	<p>name: <b>{{name}}</b></p>
-	{{2+2+"2"}}
-</body>
+<body ng-controller="controller">
+	<div class="big-block header">
+		<div class="block">
+			<a href="" class="header-logo">
+				<img src="logo.png" alt="">
+			</a>
+			<ul class="header-licks">
+				<li>
+					<a href="/">Main</a>
+				</li>
+				<li>
+					<a href="/users">Log in</a>
+				</li>
+			</ul>
+			<div class="header-social">
+				<a href="https://t.me/gleb_orl"> <i class="fa fa-telegram" aria-hidden="true"></i>
+				</a>
+				<a href="https://www.linkedin.com/in/%D0%B3%D0%BB%D0%B5%D0%B1-%D0%BE%D1%80%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9-4231b4148/"> <i class="fa fa-linkedin" aria-hidden="true"></i>
+				</a>
+				<a href="https://github.com/SomeSomeone">
+					<i class="fa fa-github" aria-hidden="true"></i>
+				</a>
+				<a href="mailto:nice.gl_orl@ukr.net">
+					<i class="fa fa-envelope-o" aria-hidden="true"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div ng-view></div>
+	<div class="footer big-block">
+	<div class="block">
+		
+		<div class="footer-section">
+			<p class="footer-section-title">Main Page</p>
+			<a href="/">Main</a>
+			<a href="/about">About</a>
+		</div>
+		<div class="footer-section">
+			<p class="footer-section-title">User Page</p>
+			<a href="/users">Log in</a>
+		</div>
+		<div class="footer-section">
+			<p class="footer-section-title">Contacts</p>
+			<a href="https://t.me/gleb_orl">Telegram</a>
+			<a href="https://www.linkedin.com/in/%D0%B3%D0%BB%D0%B5%D0%B1-%D0%BE%D1%80%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9-4231b4148/">LinkedIn</a>
+			<a href="https://github.com/SomeSomeone">Git</a>
+			<a href="mailto:nice.gl_orl@ukr.net">nice.gl_orl@ukr.net</a>
+		</div>
+			</div>
 
-<script src="core.js"></script>
+	</div>
+</body>
+	<script src="core.js"></script>
 </html>
