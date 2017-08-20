@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Open+Sans:400,600,700');
 
 /* Varible */
 @main-background-color:#FFFFFF;
@@ -96,6 +96,21 @@
 	-webkit-box-sizing: @size;
 	-moz-box-sizing: @size;
 	box-sizing: @size;
+}
+.transform(@transform){
+	-webkit-transform: @transform;
+	-ms-transform: @transform;
+	-o-transform: @transform;
+	transform: @transform;
+}
+.zebra(@angl , @color1 , @color2){
+	background: repeating-linear-gradient(
+	  @angl,
+	  @color1,
+	  @color1 10px,
+	  @color2 10px,
+	  @color2 20px
+);
 }
 /* style*/
 html , body{
@@ -231,6 +246,140 @@ body{
 			p{
 				margin-top: 1em;
 				.font-content();
+			}
+		}
+	}
+}
+.map-block{
+	margin-top: 100px;
+	margin-bottom: 120px;
+	.block{
+		.flex-display();
+		.map-block-map{
+			width: 500px;
+			height: 500px; 
+			position: relative;
+			.flex(1 1);
+		}
+	}
+}
+.map-block-markers-block{
+    max-width: 100%;
+    width: 300px;
+	margin: 50px;
+	display: inline-block;
+	.basic-shadow();
+	.map-block-markers-block-buttons{
+		.font-title();
+		.flex-display();
+		background: @font-title-color;
+		button{
+			.flex(1 1);
+			color: @main-background-color;
+			background: @font-title-color;
+			position: relative;
+			border: 0;
+		    line-height: 30px;
+		    outline: 0;
+		    font-size: 12px;
+		    text-transform: uppercase;
+			&:after{
+				position: absolute;
+				content: '';
+				right: 0px;
+				top: 50%;
+				.transform(translateY(-50%));
+				width: 1px;
+				height: calc(100% - 20px);
+				.main-background-color();
+				opacity: 0.6;
+			}
+			&:last-child:after{
+				content: none;
+			}
+		}
+	}
+	.map-block-marker-create{
+		.font-content();
+		position: relative;
+		padding:10px;
+		.map-block-marker-create-close{
+			position: absolute;
+		    top: 8px;
+		    right: 10px;
+		    font-size: 12px;
+			cursor: pointer;
+		}
+		.map-block-marker-create-coord{
+			padding-right: 20px; 
+			font-size: 12px;
+			span{
+				font-weight: 600;
+			}
+		}
+		input{
+			width: 100%;
+			line-height: 20px;
+			border: 0;
+			border-bottom: 1px solid @font-content-color;
+			outline: 0;
+			font-size: 12px;
+			.font-content();
+		}
+		button{
+		    line-height: 20px;
+		    margin-top: 10px;
+		    background: white;
+		    outline: 0;
+		    border: 1px solid black;
+    		text-transform: uppercase;
+		}
+	}
+	.map-block-marker-create.not-set{
+		font-size: 12px;
+		line-height: 20px;
+		padding: 10px;
+		text-align: center;
+		.zebra(-55deg , @hover-background-color , @main-background-color);
+		span{
+			font-weight: 600;
+		}
+	}
+	.map-block-marker-create.not-set + .map-block-markers{
+		max-height: 262px;
+	}
+	.map-block-markers{
+		margin-top: 10px;
+		margin-bottom: 10px;
+		max-height: 220px;
+    	overflow: auto;
+		.font-content();
+		.map-block-marker{
+			padding:10px;
+			padding-right: 20px;
+			margin-bottom: 10px;
+			font-size: 12px;
+			position: relative;
+			word-wrap: break-word;
+			&:after{
+				position: absolute;
+				content: "";
+				width: 100px;  
+				height: 1px;
+				top: 100%;
+				left: 50%;
+				.transform(translateX(-50%));
+				background: @font-title-color;
+			}
+			&:last-child:after{
+				content: none;
+			}
+			.map-block-marker-close{
+				position: absolute;
+			    top: 8px;
+			    right: 10px;
+			    font-size: 12px;
+			    cursor: pointer;
 			}
 		}
 	}
