@@ -1,10 +1,13 @@
 module.exports = function(app) {
 	var DG = require('2gis-maps');	
 
-	app.controller('controller', function($scope) {
+	app.controller('controller', function($scope, $http, $httpParamSerializer) {
 		$scope.map ="";
 		$scope.marker;
-		$scope.markers = DG.featureGroup(),
+		$scope.markers = DG.featureGroup()
+
+		$scope.markesMap={}
+
 		$scope.markersCount=function() {
 			return Object.keys($scope.markers._layers).length
 		}
@@ -41,7 +44,6 @@ module.exports = function(app) {
 			    });
 			}	    
 		}
-
 		$scope.initFullMap = function (){
 			getLocation()
 			function getLocation() {
@@ -60,10 +62,10 @@ module.exports = function(app) {
 		        DG.marker(coords).addTo($scope.map).bindPopup('You here!');
 		        
 		        $scope.map.on('click', $scope.refresh)
+				$scope.initMarkers()
 				$scope.showMarker()
 			}
 		}
-
 		$scope.refresh=function(e){
 			console.log($scope.marker)
 		    if ($scope.marker) {
@@ -74,6 +76,20 @@ module.exports = function(app) {
 		    $scope.newMarker.latlng=[e.latlng.lat,e.latlng.lng]
 		    $scope.$apply();
 		}
+		$scope.initMarkers=function() {
+			$scope.getAllMarkers().then(function(response) {
+				let markers =response.data
+				for( let marker in markers){
+					let mapMarker = DG.marker(markers[marker].latlng).addTo($scope.markers).bindPopup(markers[marker].bindPopup)
+					$scope.markesMap[mapMarker._leaflet_id]=markers[marker]._id
+				}
+			})
+		}
+
+
+
+
+
 
 		$scope.clearMarker=function () {
 			$scope.marker.remove()
@@ -82,21 +98,58 @@ module.exports = function(app) {
 		}
 		$scope.createMarker=function () {
 			DG.marker($scope.newMarker.latlng).addTo($scope.markers).bindPopup($scope.newMarker.bindPopup)
+			$scope.postNewMarker()
 			$scope.marker.remove()
 			$scope.newMarker = { latlng: [0,0], bindPopup:"" };
-			$scope.marker=false;
+			$scope.marker = false;
 		}
-		$scope.deleteMarker=function(marker) {
+		$scope.deleteMarker = function(marker) {
+			$scope.deleteMarkerById($scope.markesMap[marker._leaflet_id])
 			marker.removeFrom($scope.map)
 			marker.removeFrom($scope.markers)
 		}
-		$scope.showMarker=function() {
+
+
+
+
+		$scope.showMarker = function() {
 			$scope.markers.addTo($scope.map);
 			console.log($scope.markers)
 			console.log($scope.map)
 		}
 		$scope.hideMarker=function() {
 			$scope.markers.removeFrom($scope.map);
+		}
+		
+
+
+
+
+
+
+
+
+		$scope.getAllMarkers=function() {
+			return $http({
+			    method: 'GET',
+			    url: '/marks',
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+		}
+		$scope.postNewMarker=function() {
+			return $http({
+			    method: 'POST',
+			    url: '/marks/new',
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			    data: $httpParamSerializer($scope.newMarker)
+			})
+		}
+		$scope.deleteMarkerById=function(id) {
+			return $http({
+			    method: 'DELETE',
+			    url: '/marks/'+id,
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
 		}
 
 	});
