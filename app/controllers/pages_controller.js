@@ -60,6 +60,10 @@ module.exports = function(app) {
 	    .when("/about", {
 	        templateUrl : "pages/_about.html",
 	        controller : "pageController"
+	    })
+	    .when("/author", {
+	        templateUrl : "pages/_author.html",
+	        controller : "pageController"
 	    });
 	    $locationProvider.html5Mode(true);
 	})

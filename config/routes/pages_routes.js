@@ -11,7 +11,10 @@ module.exports = function(app, db , express) {
 		//for test
 	  	res.sendFile('/index.html', { root : VIEWS })
 	});
-
+	app.get('/author', (req, res) => {
+		//for test
+	  	res.sendFile('/index.html', { root : VIEWS })
+	});
 
 
   	app.use('/pages',express.static('./app/views/pages'));

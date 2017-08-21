@@ -21,6 +21,7 @@ module.exports={
         reset: './app/assets/stylesheets/reset.css',
         //images
         logo: './app/assets/images/logo.png',
+        i: './app/assets/images/i.jpg'
 	},
 	output: {
 		path: __dirname  + '/public',
