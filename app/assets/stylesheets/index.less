@@ -428,3 +428,47 @@ body{
 		}
 	}
 }
+.log-in{
+	margin-top: 100px;
+	margin-bottom: 120px;
+	.block{
+		width: 300px;
+		.basic-shadow();
+		margin-left: auto;
+		margin-right: auto;
+		h2{
+			.font-title();
+			font-size: 12px;
+			line-height: 30px;
+			display: block;
+			width: 100%;
+			color: @main-background-color;
+			background: @font-title-color;
+			text-align: center;
+		}
+		.log-in-content{
+			padding: 0 10px 10px;
+			text-align: center;
+			input{
+				.font-content();
+				width: 100%;
+				line-height: 20px;
+				border: 0;
+				border-bottom: 1px solid @font-content-color;
+				outline: 0;
+				font-size: 12px;
+				margin-top: 20px;
+			}
+			button{
+				.font-content();
+			    line-height: 20px;
+			    margin-top: 20px;
+			    margin-bottom: 10px;
+			    background: white;
+			    outline: 0;
+			    border: 1px solid black;
+	    		text-transform: uppercase;
+			}
+		}
+	}
+}
