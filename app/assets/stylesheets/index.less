@@ -269,6 +269,7 @@ body{
     width: 300px;
 	margin: 50px;
 	display: inline-block;
+	position: relative;
 	.basic-shadow();
 	.map-block-markers-block-buttons{
 		.font-title();
@@ -347,12 +348,12 @@ body{
 		}
 	}
 	.map-block-marker-create.not-set + .map-block-markers{
-		max-height: 262px;
+		max-height: 224px;
 	}
 	.map-block-markers{
 		margin-top: 10px;
 		margin-bottom: 10px;
-		max-height: 220px;
+		max-height: 170px;
     	overflow: auto;
 		.font-content();
 		.map-block-marker{
@@ -383,6 +384,60 @@ body{
 			    cursor: pointer;
 			}
 		}
+	}
+	.map-block-markers-block-filters{
+		position: absolute;
+		bottom:0;
+		.font-title();
+		.flex-display();
+		width: 100%;
+		background: @font-title-color;
+		flex-wrap: wrap;
+		button{
+			.flex(1 1 50%);
+			color: @main-background-color;
+			background: @font-title-color;
+			position: relative;
+			border: 0;
+		    line-height: 30px;
+		    outline: 0;
+		    font-size: 12px;
+		    text-transform: uppercase;
+		    &.active{
+		    	background: @main-background-color;
+				color : @font-title-color;
+		    }
+			&:after{
+				position: absolute;
+				content: '';
+				right: 0px;
+				top: 50%;
+				.transform(translateY(-50%));
+				width: 1px;
+				height: calc(100% - 20px);
+				.main-background-color();
+				opacity: 0.6;
+			}
+			&:before{
+				position: absolute;
+				content: '';
+				left:50% ;
+				bottom: 0px ;
+				.transform(translateX(-50%));
+				width: calc(100% - 20px);
+				height: 1px;
+				.main-background-color();
+				opacity: 0.6;
+			}
+			&:nth-child(2n):after{
+				content: none;
+			}
+			&:nth-last-child(2):before,
+			&:nth-last-child(1):before{
+				content: none;	
+			}
+		}
+
 	}
 }
 .main-block{

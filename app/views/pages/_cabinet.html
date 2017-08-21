@@ -29,6 +29,9 @@
 					<p>{{ marker._popup._bodyContent.length>0 ? marker._popup._bodyContent : "Not described marker"  }}</p>
 				</div>
 			</div>
+			<div class="map-block-markers-block-filters" >
+				<button ng-click="choseFilterMarkers(key)" ng-repeat="(key , value) in filterMarkersMap" ng-class="filterMarkersChoisen==key?'active':''">{{key}}</button>
+			</div>
 		</div>
 	</div>
 </div>

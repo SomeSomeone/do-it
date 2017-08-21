@@ -22,10 +22,25 @@ module.exports = function(app) {
                 );
             };
 
+
+
+
+            $scope.currentLocationMarker;
             $scope.marker;
             $scope.markers = DG.featureGroup()
 
             $scope.markesMap={}
+            $scope.newMarker = { latlng:[0,0], bindPopup:"" };
+
+            $scope.filterMarkers = DG.featureGroup();
+            $scope.filterMarkersMap={
+                "Pharmacies"    : "pharmacy",
+                "Gas stations"  : "gas_station",
+                "Schools"       : "school",
+                "Restaurants"   : "restaurant"
+            }
+            $scope.filterMarkersChoisen=''
+
 
             $scope.markersCount=function() {
                 return Object.keys($scope.markers._layers).length
@@ -35,9 +50,6 @@ module.exports = function(app) {
                 return Object.values($scope.markers._layers) 
             }
             
-            $scope.bindPopup = ""
-            $scope.newMarker = { latlng:[0,0], bindPopup:"" };
-
 
             $scope.initFullMap = function (){
                 getLocation()
@@ -54,7 +66,7 @@ module.exports = function(app) {
                         center:coords,
                         zoom: 13
                     });
-                    DG.marker(coords).addTo($scope.map).bindPopup('You here!');
+                    $scope.currentLocationMarker=DG.marker(coords).addTo($scope.map).bindPopup('You here!');
                     
                     $scope.map.on('click', $scope.refresh)
                     $scope.initMarkers()
@@ -118,7 +130,48 @@ module.exports = function(app) {
 
 
 
+            $scope.findMarkers = function (type) {
+                return $http({
+                    method: 'POST',
+                    url: '/marks/here',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: $httpParamSerializer({latlng:$scope.currentLocationMarker.getLatLng(),type:type})
+                })
+            }
+            $scope.choseFilterMarkers = function(type) {
+                $scope.filterMarkers.removeFrom($scope.map);
+                $scope.filterMarkers = DG.featureGroup()
+                if (type==$scope.filterMarkersChoisen) {
+                    $scope.filterMarkersChoisen=''
+                    return
+                }else{
+                    $scope.filterMarkersChoisen=type
+                    $scope.findMarkers($scope.filterMarkersMap[type]).then(function(response) {
+                        let markers =response.data.results
+                        console.log(response)
+                        for( let marker in markers){
 
+                            console.log(markers[marker])
+                            var myIcon = DG.icon({
+                                iconUrl: markers[marker].icon,
+                                iconRetinaUrl: 'my-icon@2x.png',
+                                iconSize: [25, 25],
+                                iconAnchor: [25, 25],
+                                popupAnchor: [0, -25]
+                            });
+
+                            let mapMarker =  DG.marker(
+                                [markers[marker].geometry.location.lat, markers[marker].geometry.location.lng],
+                                {icon: myIcon}
+                            )
+                            .addTo($scope.filterMarkers)
+                            .bindPopup(markers[marker].name);
+                            $scope.markesMap[mapMarker._leaflet_id]=markers[marker]._id
+                        }
+                        $scope.filterMarkers.addTo($scope.map);
+                    })
+                }
+            }
 
 
 

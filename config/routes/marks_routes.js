@@ -1,4 +1,5 @@
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
+const fetch  = require('node-fetch');
 const path  = require('path');
 VIEWS=path.join(__dirname, './../../app/views');
 
@@ -37,4 +38,28 @@ module.exports = function(app, db) {
 	      } 
 	    });
 	});
+	app.post('/marks/here',(req, res)  => {
+		var latlng=JSON.parse(req.body.latlng);
+	    const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+        const key = 'AIzaSyC4hFpKX1HQzIsBQlux8RQB1gK1FOimDu4';
+        const location = `${latlng.lat},${latlng.lng}`;
+        const rankby = "distance";
+        const type = req.body.type
+        const finalUrl = `${url}?key=${key}&location=${location}&rankby=${rankby}&type=${type}`;
+
+	    console.log(finalUrl);
+	    fetch( finalUrl, {
+	        method: 'get'
+	    }).then( response => {
+	        if(response.status === 200){
+	            response.json().then( data => {
+	                res.send(data);
+	                console.log(1)
+	            });
+	        } else {
+	        	console.log(2)
+	            res.status(500).end();
+	        }
+	    });
+  });
 };
