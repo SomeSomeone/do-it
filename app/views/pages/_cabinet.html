@@ -1,0 +1,34 @@
+<div ng-init="initFullMap()" class="big-block map-block">
+	<div class="block">
+		<div class="map-block-map" ng-click="update()" id="map" ></div>
+		<div class="map-block-markers-block" >
+			<div class="map-block-markers-block-buttons">
+				<button ng-click="showMarker()">Show All</button>
+				<button ng-click="hideMarker()">Hide All</button>
+			</div>
+			<div class="map-block-marker-create" ng-if="marker">
+				<div  ng-click="clearMarker()" class="map-block-marker-create-close">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</div>
+				<div class="map-block-marker-create-coord">
+					<p><span>Latitude: </span>{{newMarker.latlng[0]}}</p>
+					<p><span>Longitude: </span>{{newMarker.latlng[1]}}</p>
+				</div>
+				<input type="text" ng-model="newMarker.bindPopup" placeholder="Describe the place">
+				<button ng-click="createMarker()">Create marker</button>
+			</div>
+			<div class="map-block-marker-create not-set" ng-if="!marker">
+				<p>To create a new marker,<br><span>click on the map area!</span></p>
+			</div>
+			<div class="map-block-markers" ng-if="markersCount()>0">
+				<div class="map-block-marker"  ng-repeat="marker in markersArray()| orderBy:'-_leaflet_id'">
+					<div class="map-block-marker-close" ng-click="deleteMarker(marker)">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</div>
+					{{key}}
+					<p>{{ marker._popup._bodyContent.length>0 ? marker._popup._bodyContent : "Not described marker"  }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -9,10 +9,10 @@
 	<link rel="stylesheet" type="text/css" href="index_less.css">
 	<base href="/" />
 </head>
-<body ng-controller="controller">
+<body ng-controller="pageController">
 	<div class="big-block header">
 		<div class="block">
-			<a href="" class="header-logo">
+			<a href="/" class="header-logo">
 				<img src="logo.png" alt="">
 			</a>
 			<ul class="header-licks">
@@ -20,8 +20,18 @@
 					<a href="/">Main</a>
 				</li>
 				<li>
-					<a href="/users">Log in</a>
+					<a href="/about">About</a>			
 				</li>
+				<li ng-if=!currentUser()>
+					<a href="/log_in"  ">Log in</a>
+				</li>
+				<li ng-if=currentUser()>
+					<a href="/cabinet">Cabinet</a>
+				</li>
+				<li ng-if=currentUser()>
+					<a ng-click="logOut()" >Log out</a>
+				</li>
+
 			</ul>
 			<div class="header-social">
 				<a href="https://t.me/gleb_orl"> <i class="fa fa-telegram" aria-hidden="true"></i>
@@ -48,7 +58,9 @@
 		</div>
 		<div class="footer-section">
 			<p class="footer-section-title">User Page</p>
-			<a href="/users">Log in</a>
+			<a ng-if=!currentUser() href="/log_in">Log in</a>
+			<a ng-if=currentUser() href="/cabinet">Cabinet</a>
+			<a ng-if=currentUser() ng-click="logOut()">Log out</a>
 		</div>
 		<div class="footer-section">
 			<p class="footer-section-title">Contacts</p>
@@ -57,7 +69,7 @@
 			<a href="https://github.com/SomeSomeone">Git</a>
 			<a href="mailto:nice.gl_orl@ukr.net">nice.gl_orl@ukr.net</a>
 		</div>
-			</div>
+	</div>
 
 	</div>
 </body>

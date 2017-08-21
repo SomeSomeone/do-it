@@ -1,65 +1,8 @@
-import angular from 'angular'
-import angularRoute from 'angular-route'
-import angularCookies from 'angular-cookies'
-var app = angular.module('app', [angularRoute , angularCookies]);
-
-require('../controllers/')(app);
-
-app.factory('AuthenticationService',
-    ['Base64', '$http', '$cookieStore', '$rootScope', '$httpParamSerializer',
-    function (Base64, $http, $cookieStore, $rootScope, $httpParamSerializer) {
-        var service = {};
-
-        service.Login = function (username, password, callback, error) {
 
 
-            /* Use this for real authentication
-             ----------------------------------------------*/
-            $http({
-                method: 'POST',
-                url: '/log_in',
-                headers: {'Authorization': "Basic " + btoa(username + ":" + password)},
-                data: $httpParamSerializer({ name: username, pass: password })
-            }).then(
-                function(response) {
-                   callback(response); 
-               },
-               function (response) {
-                   error(response)
-               }
-            )
+var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
-        };
-
-        service.SetCredentials = function (username, password) {
-            var authdata = Base64.encode(username + ':' + password);
-
-            $rootScope.globals = {
-                currentUser: {
-                    username: username,
-                    authdata: authdata
-                }
-            };
-
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
-            $cookieStore.put('globals', $rootScope.globals);
-        };
-
-        service.ClearCredentials = function () {
-            $rootScope.globals = {};
-            $cookieStore.remove('globals');
-            $http.defaults.headers.common.Authorization = 'Basic ';
-        };
-
-        return service;
-    }])
-
-.factory('Base64', function () {
-    /* jshint ignore:start */
-
-    var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-    return {
+module.exports = {
         encode: function (input) {
             var output = "";
             var chr1, chr2, chr3 = "";
@@ -136,6 +79,3 @@ app.factory('AuthenticationService',
             return output;
         }
     };
-
-    /* jshint ignore:end */
-});
