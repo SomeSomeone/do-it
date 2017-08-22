@@ -3,7 +3,7 @@
 ### Quick start
 
 ```sh
-$ https://github.com/SomeSomeone/do-it.git
+$ git clone https://github.com/SomeSomeone/do-it.git
 $ cd do-it
 $ npm install
 $ webpack
