@@ -5,27 +5,35 @@ VIEWS=path.join(__dirname, './../../app/views');
 
 
 module.exports = function(app, db) {
+	const userHelper  = require('../user_routes_helper.js')(db);
+
+
   	app.get('/marks', (req, res) => {
   		//maybe we need page of marks
-	    db.collection('marks').find({}).toArray((err, marks) => {
-	      if (err) {
-	        res.send({'error':'An error has occurred'});
-	      } else {
-	      	console.log(marks)
-	        res.send(marks);
-	      }
-	    });
+	    userHelper.current_user(req ,function(err, item){
+	    	
+		    db.collection('marks').find({author:item._id}).toArray((err, marks) => {
+		      if (err) {
+		        res.send({'error':'An error has occurred'});
+		      } else {
+		      	console.log(marks)
+		        res.send(marks);
+		      }
+		    });
+		 });
 	});
   	app.post('/marks/new', (req, res) => {
-  		console.log(req.body)
-	    const mark = { latlng: req.body.latlng, bindPopup: req.body.bindPopup };
-	    db.collection('marks').insert(mark, (err, result) => {
-	      if (err) { 
-	        res.send({ 'error': 'An error has occurred' }); 
-	      } else {
-	        res.send(result.ops[0]);
-	      }
-	    });
+	    userHelper.current_user(req ,function (err,item) {
+		    const mark = { latlng: req.body.latlng, bindPopup: req.body.bindPopup , author:item._id};
+		    db.collection('marks').insert(mark, (err, result) => {
+		      if (err) { 
+		        res.send({ 'error': 'An error has occurred' }); 
+		      } else {
+		        res.send(result.ops[0]);
+		      }
+		    });
+	    })
+
 	});
 	app.delete('/marks/:id', (req, res) => {
 	    const id = req.params.id;

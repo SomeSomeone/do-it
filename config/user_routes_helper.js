@@ -1,8 +1,79 @@
+const basicAuth    = require('basic-auth');
 
+
+
+
+
+module.exports = function(db) {
+   return{
+    auth : function (req, res, next) {
+      if (req.cookies.globals===undefined) {
+        res.redirect('/log_in');
+      }
+      var userData=JSON.parse(req.cookies.globals).currentUser
+      if (!userData || !userData.authdata || !userData.username) {
+        res.redirect('/log_in');
+      }else{
+        db.collection('users').findOne({name:userData.username}, (err, item) => {
+          if (item && Base64.decode(userData.authdata) === item.pass) {
+            next();
+          } else {
+            res.redirect('/log_in');
+          }
+        })
+      }
+    },
+    current_user:function(req ,callback) {
+      if (req.cookies.globals===undefined) {
+        res.redirect('/log_in');
+      }
+      var userData=JSON.parse(req.cookies.globals).currentUser
+      if (userData && userData.username) {  
+        db.collection('users').findOne({name:userData.username}, (err, item) => {
+          callback(err, item)
+        })
+      }
+    },
+    log_in : function(req, res) {
+        var user = basicAuth(req);
+        if (!user || !user.name || !user.pass) {
+          res.status(500).send('Something broke!');
+           console.log(3)
+        }else{
+          db.collection('users').findOne({name:user.name}, (err, item) => {
+
+            if (item && user.name === item.name && user.pass === item.pass) {
+              res.status(200).send('Something Ok!');
+               console.log(2)
+            } else {
+              res.status(500).send('Something broke!');
+              console.log(1)
+            }
+          })
+        }
+        
+    },
+    registrate : function (req, res) {
+      var user = basicAuth(req);
+        if (!user || !user.name || !user.pass) {
+          res.status(500).send('Something broke!');
+        }else{
+          const userItems = { name: user.name , pass: user.pass };
+          db.collection('users').insert(userItems, (err, result) => {
+            if (err) { 
+              res.status(500).send({ 'error': 'An error has occurred' });
+            } else {
+              res.status(200).send('Something Ok!');
+            }
+          });         
+        } 
+    }
+  }
+}
 
 var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
-module.exports = {
+const Base64    =  {
         encode: function (input) {
             var output = "";
             var chr1, chr2, chr3 = "";
@@ -79,3 +150,4 @@ module.exports = {
             return output;
         }
     };
+

@@ -40,7 +40,10 @@ module.exports = function(app) {
 			            center:coords,
 			            zoom: 13
 			        });
-			        DG.marker(coords).addTo($scope.map).bindPopup('You');
+			         var myIcon = DG.icon({
+                                iconUrl: 'https://maps.api.2gis.ru/2.0/img/DGCustomization__markerHover.png',
+                    });
+                    DG.marker(coords,{icon:myIcon}).addTo($scope.map).bindPopup('You here!');
 			        $scope.map.on('click', function(e) {
 		                $scope.newMarker={ lat: e.latlng.lat , lng: e.latlng.lng};
 		                console.log(e)

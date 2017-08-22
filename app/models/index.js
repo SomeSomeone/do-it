@@ -30,9 +30,29 @@ app.factory('AuthenticationService',
             )
 
         };
+        service.Registrate = function (username, password, callback, error) {
+
+
+            /* Use this for real authentication
+             ----------------------------------------------*/
+            $http({
+                method: 'POST',
+                url: 'registrate',
+                headers: {'Authorization': "Basic " + btoa(username + ":" + password)},
+                data: $httpParamSerializer({ name: username, pass: password })
+            }).then(
+                function(response) {
+                   callback(response); 
+               },
+               function (response) {
+                   error(response)
+               }
+            )
+
+        };
 
         service.SetCredentials = function (username, password) {
-            var authdata = Base64.encode(username + ':' + password);
+            var authdata = Base64.encode(password);
 
             $rootScope.globals = {
                 currentUser: {

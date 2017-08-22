@@ -25,6 +25,9 @@
 				<li ng-if=!currentUser()>
 					<a href="/log_in"  ">Log in</a>
 				</li>
+				<li ng-if=!currentUser()>
+					<a  href="/registrate">Registrate</a>
+				</li>
 				<li ng-if=currentUser()>
 					<a href="/cabinet">Cabinet</a>
 				</li>
@@ -63,6 +66,7 @@
 		<div class="footer-section">
 			<p class="footer-section-title">User Page</p>
 			<a ng-if=!currentUser() href="/log_in">Log in</a>
+			<a ng-if=!currentUser() href="/registrate">Registrate</a>
 			<a ng-if=currentUser() href="/cabinet">Cabinet</a>
 			<a ng-if=currentUser() ng-click="logOut()">Log out</a>
 		</div>

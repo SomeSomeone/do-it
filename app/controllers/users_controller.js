@@ -22,6 +22,19 @@ module.exports = function(app) {
                 );
             };
 
+            $scope.registrate = function () {
+                $scope.dataLoading = true;
+                AuthenticationService.Registrate($scope.username, $scope.password, function (response) {
+                        AuthenticationService.SetCredentials($scope.username, $scope.password);
+                        $location.path('/cabinet');  
+                    },
+                    function (response) {
+                        $scope.error = response.message;
+                        $scope.dataLoading = false;
+                    }
+                );
+            };
+
 
 
 
@@ -66,7 +79,11 @@ module.exports = function(app) {
                         center:coords,
                         zoom: 13
                     });
-                    $scope.currentLocationMarker=DG.marker(coords).addTo($scope.map).bindPopup('You here!');
+                    var myIcon = DG.icon({
+                                iconUrl: 'https://maps.api.2gis.ru/2.0/img/DGCustomization__markerHover.png',
+                            
+                    });
+                    $scope.currentLocationMarker=DG.marker(coords,{icon:myIcon}).addTo($scope.map).bindPopup('You here!');
                     
                     $scope.map.on('click', $scope.refresh)
                     $scope.initMarkers()
@@ -159,7 +176,7 @@ module.exports = function(app) {
                                 iconAnchor: [25, 25],
                                 popupAnchor: [0, -25]
                             });
-
+                            
                             let mapMarker =  DG.marker(
                                 [markers[marker].geometry.location.lat, markers[marker].geometry.location.lng],
                                 {icon: myIcon}
@@ -205,6 +222,10 @@ module.exports = function(app) {
             $routeProvider
             .when("/cabinet", {
                 templateUrl : "pages/_cabinet.html",
+                controller : "userController"
+            })
+            .when("/registrate", {
+                templateUrl : "pages/_registrate.html",
                 controller : "userController"
             })
             .when("/log_in", {
